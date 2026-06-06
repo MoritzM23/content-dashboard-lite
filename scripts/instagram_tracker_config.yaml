@@ -1,0 +1,39 @@
+# Instagram-Tracker-Konfiguration.
+# WICHTIG: self_handle und tracked_competitors werden aus niche.yaml gelesen.
+# Diese Datei nur fuer Tuning der Tracking-Tiefe und Costs anpassen.
+
+reels_per_creator: 10
+self_reels_per_run: 50
+
+output_dir: ./05-reference/competitor-content
+actor_id: apify/instagram-reel-scraper
+include_transcripts: true
+timeout_per_creator: 180
+
+transcript_enabled: false
+transcript_actor_id: crawlerbros/instagram-transcript-scraper
+transcript_cache_dir: ./05-reference/competitor-content/_transcripts
+transcript_max_per_run: 50
+transcript_timeout: 300
+local_transcripts_enabled: true
+local_transcripts_max_per_run: 200
+
+summary_enabled: true
+summary_model: claude-haiku-4-5-20251001
+summary_cache_dir: ./05-reference/competitor-content/_summaries
+summary_max_per_run: 150
+summary_max_chars: 240
+
+comments_enabled: false
+comments_max_per_reel: 50
+comments_cache_dir: ./05-reference/competitor-content/_comments
+comments_max_per_run: 50
+comments_timeout: 120
+
+ai_analysis_enabled: true
+ai_analysis_cache_dir: ./05-reference/competitor-content/_ai_analysis
+ai_standard_model: claude-haiku-4-5-20251001
+ai_deep_model: claude-sonnet-4-6-20251001
+ai_standard_max_per_run: 200
+ai_deep_max_per_run: 12
+ai_topic_clustering_per_run: 1

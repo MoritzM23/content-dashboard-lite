@@ -1,0 +1,23 @@
+# TikTok-Tracker-Konfiguration.
+# WICHTIG: tiktok_handle wird aus niche.yaml gelesen.
+# Diese Datei nur fuer Tuning anpassen.
+
+# Wird ueberschrieben durch niche.yaml -> tiktok_handle.
+# Wenn niche.yaml keinen Handle hat, wird dieser hier genutzt.
+self_handle: dein.handle.hier
+
+# Weitere zu trackende TikTok-Handles. Leer = nur self.
+tracked_handles: []
+
+# Wie viele Videos pro Run.
+videos_per_handle: 50
+
+# Apify-Actor: clockworks/tiktok-scraper liefert Views, Likes, Comments, Saves, Shares.
+# Cost: ca. $0.30 pro 1000 Videos.
+apify_actor: clockworks/tiktok-scraper
+
+# Wo Snapshots gespeichert werden (relativ zum Workspace-Root).
+output_dir: ./05-reference/tiktok-tracker
+
+# Apify-Run-Timeout (Sekunden).
+apify_run_timeout: 300

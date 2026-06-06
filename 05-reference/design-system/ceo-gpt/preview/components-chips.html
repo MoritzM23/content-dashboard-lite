@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8">
+<title>Chips & Status</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .chip { display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; font:500 11px/1 var(--font-body); letter-spacing:0; }
+  .chip.default { background:#1B1612; color:var(--cream); border:1px solid rgba(110,55,38,0.5); }
+  .chip.accent  { background:rgba(194,107,76,0.15); color:var(--terra-glow); border:1px solid rgba(212,132,102,0.4); }
+  .chip.solid   { background:var(--terra); color:#0A0805; }
+  .dot { width:6px; height:6px; border-radius:999px; }
+  .status-positive { color:#A4B570; }
+  .status-warning  { color:#E6B25E; }
+  .status-danger   { color:#D06A56; }
+</style>
+</head><body>
+<div class="eyebrow">Chips · status</div>
+<div style="display:flex; flex-direction:column; gap:14px;">
+  <div style="display:flex; gap:8px; flex-wrap:wrap;">
+    <span class="chip default">Strategie</span>
+    <span class="chip default">M&amp;A</span>
+    <span class="chip default">Vorstand</span>
+    <span class="chip accent">Beta · interner Test</span>
+    <span class="chip solid">Pro</span>
+  </div>
+  <div style="display:flex; gap:18px; align-items:center; padding-top:8px; border-top:1px solid rgba(110,55,38,0.3);">
+    <div style="display:flex; align-items:center; gap:8px;"><div class="dot" style="background:#7A8A4E;"></div><span class="status-positive" style="font:500 12px/1 var(--font-body);">Online · einsatzbereit</span></div>
+    <div style="display:flex; align-items:center; gap:8px;"><div class="dot" style="background:#D9A24E;"></div><span class="status-warning" style="font:500 12px/1 var(--font-body);">Wird trainiert</span></div>
+    <div style="display:flex; align-items:center; gap:8px;"><div class="dot" style="background:#B14A3A;"></div><span class="status-danger" style="font:500 12px/1 var(--font-body);">Verbindung getrennt</span></div>
+  </div>
+</div>
+</body></html>

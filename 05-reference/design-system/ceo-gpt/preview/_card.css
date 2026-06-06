@@ -1,0 +1,36 @@
+/* Preview card base — shared by all design-system tab cards.
+   Each card is 700px wide × variable height. */
+@import url('../colors_and_type.css');
+
+html, body {
+  background: var(--bg-stage);
+  color: var(--fg1);
+  font-family: var(--font-body);
+  width: 700px;
+  overflow: hidden;
+}
+body { padding: 24px 28px; }
+
+.eyebrow {
+  font: var(--w-medium) 10px/1 var(--font-body);
+  letter-spacing: var(--tracking-allcaps);
+  text-transform: uppercase;
+  color: var(--fg-accent);
+  margin-bottom: 14px;
+}
+.descriptor {
+  font: var(--w-regular) 11px/1.45 var(--font-body);
+  color: var(--fg3);
+}
+
+.row { display: flex; gap: 12px; }
+.grid { display: grid; gap: 12px; }
+.glow {
+  position: relative;
+}
+.glow::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--glow-terra);
+  pointer-events: none;
+}

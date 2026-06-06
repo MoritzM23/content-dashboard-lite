@@ -1,0 +1,299 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-heading);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+/* CEO-GPT Design-System (canonical: 05-reference/design-system/ceo-gpt/colors_and_type.css)
+   Warm-dark Stage · Cream Paper · ein Terracotta-Akzent · keine kühlen Töne. */
+:root,
+.dark {
+  /* Backgrounds — Warm-dark stage */
+  --background: #0A0805;        /* --dark-deep · stage / outer background */
+  --foreground: #F2E8DC;        /* --cream · primary foreground */
+  --card: #17130F;              /* --dark · primary card surface */
+  --card-foreground: #F2E8DC;
+  --popover: #1B1612;           /* --dark-raised · raised tile */
+  --popover-foreground: #F2E8DC;
+
+  /* Primary = Terracotta (the one warm accent) */
+  --primary: #C26B4C;           /* --terra */
+  --primary-foreground: #0A0805;
+  --secondary: rgba(242, 232, 220, 0.04);
+  --secondary-foreground: #F2E8DC;
+
+  /* Muted = subtile Surface, dim text */
+  --muted: rgba(242, 232, 220, 0.04);
+  --muted-foreground: #8C8479;  /* --cream-dim */
+
+  /* Accent für hover-Tints */
+  --accent: rgba(194, 107, 76, 0.08);
+  --accent-foreground: #F2E8DC;
+
+  /* Status — warm-shifted, keine kühlen Töne */
+  --destructive: #B14A3A;       /* --danger · fired-clay */
+  --destructive-foreground: #F2E8DC;
+  --ok: #7A8A4E;                /* --positive · olive */
+  --warn: #D9A24E;              /* --warning · amber */
+
+  /* Borders + Inputs */
+  --border: color-mix(in srgb, #6E3726 50%, transparent);  /* --terra-deep @ 50% */
+  --input: rgba(242, 232, 220, 0.04);
+  --ring: #D48466;              /* --terra-glow · 1px focus ring */
+
+  /* Charts — warme Palette, kein Cool-Ton */
+  --chart-1: #C26B4C;           /* terra */
+  --chart-2: #7A8A4E;           /* olive */
+  --chart-3: #D9A24E;           /* amber */
+  --chart-4: #8C8479;           /* cream-dim */
+  --chart-5: rgba(242, 232, 220, 0.4);
+
+  /* Sidebar */
+  --sidebar: #0A0805;
+  --sidebar-foreground: #C9BDAF;  /* --cream-muted */
+  --sidebar-primary: #C26B4C;
+  --sidebar-primary-foreground: #0A0805;
+  --sidebar-accent: rgba(242, 232, 220, 0.04);
+  --sidebar-accent-foreground: #F2E8DC;
+  --sidebar-border: color-mix(in srgb, #6E3726 30%, transparent);
+  --sidebar-ring: #D48466;
+
+  /* CEO-GPT signature tokens — direkt verfügbar für Atmosphäre & Glow */
+  --terra: #C26B4C;
+  --terra-glow: #D48466;
+  --terra-deep: #6E3726;
+  --terra-ember: #3A1A11;
+  --cream: #F2E8DC;
+  --cream-muted: #C9BDAF;
+  --cream-dim: #8C8479;
+  --glow-terra: radial-gradient(60% 80% at 50% 110%,
+                  color-mix(in srgb, #6E3726 40%, transparent) 0%,
+                  transparent 65%);
+
+  /* Radius — Karten 22px (Brand-Signatur), shadcn-Skala leitet sich davon ab */
+  --radius: 0.875rem;           /* 14px Basis · xl => 22px (close to canonical --r-xl) */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply bg-background text-foreground;
+    /* Forciere dark-mode -- die App ist dark-only wie das alte Dashboard. */
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  /* Custom font tokens fuer Markenkonsistenz mit dem Jarvis-Design-System.
+     Headings nutzen Space Grotesk, mono nutzt JetBrains Mono. */
+  .font-mono,
+  code,
+  pre {
+    font-family: var(--font-mono), 'JetBrains Mono', Menlo, monospace;
+  }
+}
+
+/* Hilfs-Klassen aus altem Dashboard, die wir wiederverwenden. */
+@layer utilities {
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .num-mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+  .text-ok {
+    color: var(--ok);
+  }
+  .text-warn {
+    color: var(--warn);
+  }
+}
+
+/* Markdown-Rendering im Jarvis-Stil. Nur fuer .markdown-body-Container,
+   damit es nicht in andere UI-Bereiche leakt. */
+.markdown-body {
+  color: var(--foreground);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.markdown-body > * + * {
+  margin-top: 1em;
+}
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  color: var(--foreground);
+  font-family: var(--font-heading), var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin-top: 1.6em;
+  margin-bottom: 0.4em;
+}
+.markdown-body h1 { font-size: 1.4rem; }
+.markdown-body h2 {
+  font-size: 1.15rem;
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid var(--border);
+}
+.markdown-body h3 { font-size: 1rem; }
+.markdown-body h4 { font-size: 0.875rem; color: var(--muted-foreground); text-transform: uppercase; letter-spacing: 0.08em; }
+.markdown-body p {
+  color: var(--foreground);
+  opacity: 0.9;
+}
+.markdown-body a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--primary) 40%, transparent);
+  text-underline-offset: 2px;
+}
+.markdown-body a:hover {
+  text-decoration-color: var(--primary);
+}
+.markdown-body strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.markdown-body em {
+  color: var(--foreground);
+}
+.markdown-body code {
+  background: rgba(242, 232, 220, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 0.85em;
+  color: var(--foreground);
+}
+.markdown-body pre {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  overflow-x: auto;
+  font-size: 0.85em;
+  line-height: 1.5;
+}
+.markdown-body pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+}
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 1.4em;
+  color: var(--foreground);
+}
+.markdown-body ul { list-style: disc; }
+.markdown-body ol { list-style: decimal; }
+.markdown-body li { margin: 0.25em 0; opacity: 0.9; }
+.markdown-body li::marker {
+  color: var(--muted-foreground);
+}
+.markdown-body li > p {
+  margin: 0;
+}
+.markdown-body input[type="checkbox"] {
+  margin-right: 0.5em;
+  accent-color: var(--primary);
+}
+.markdown-body blockquote {
+  border-left: 3px solid var(--primary);
+  padding: 0.2em 0 0.2em 1em;
+  color: var(--muted-foreground);
+  font-style: italic;
+  background: rgba(194, 107, 76, 0.04);
+  border-radius: 0 4px 4px 0;
+}
+.markdown-body hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 1.5em 0;
+}
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875em;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+}
+.markdown-body th {
+  background: rgba(242, 232, 220, 0.04);
+  font-weight: 600;
+  color: var(--foreground);
+}
+.markdown-body img {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.markdown-body :first-child {
+  margin-top: 0;
+}

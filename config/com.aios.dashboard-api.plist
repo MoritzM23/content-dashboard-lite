@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.aios.dashboard-api</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>__PYTHON_PATH__3</string>
+        <string>__WORKSPACE_PATH__/scripts/dashboard_api.py</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>__LOG_PATH__/dashboard-api.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>__LOG_PATH__/dashboard-api.log</string>
+
+    <key>WorkingDirectory</key>
+    <string>__WORKSPACE_PATH__</string>
+</dict>
+</plist>

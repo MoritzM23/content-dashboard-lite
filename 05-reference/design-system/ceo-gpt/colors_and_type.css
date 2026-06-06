@@ -1,0 +1,216 @@
+/* ─────────────────────────────────────────────────────────────────
+   CEO-GPT · Color + Type System
+   Warm-dark / terracotta · No cool tones · Two typefaces
+   ───────────────────────────────────────────────────────────────── */
+
+/* — Fonts ————————————————————————————————————————————————————— */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ── COLOR ─────────────────────────────────────────────── */
+
+  /* Warm-dark stage (primary background family) */
+  --dark-deep:       #0A0805;   /* stage / outer background          */
+  --dark:            #17130F;   /* primary card / surface background */
+  --dark-raised:     #1B1612;   /* raised tile / inner card          */
+  --dark-edge:       #221C17;   /* hairline · 1px borders            */
+
+  /* Cream paper (primary foreground family) */
+  --cream:           #F2E8DC;   /* primary text on dark · surface    */
+  --cream-muted:     #C9BDAF;   /* secondary text                    */
+  --cream-dim:       #8C8479;   /* tertiary / metadata               */
+  --paper:           #F4EBDF;   /* light surface · cards on light    */
+
+  /* Terracotta accent (the one warm color) */
+  --terra:           #C26B4C;   /* primary accent · CTAs             */
+  --terra-glow:      #D48466;   /* highlight · hover · label color   */
+  --terra-deep:      #6E3726;   /* atmosphere · borders · radial glow */
+  --terra-ember:     #3A1A11;   /* deepest terracotta · embers       */
+
+  /* Semantic foreground / background tokens */
+  --fg1:             var(--cream);
+  --fg2:             var(--cream-muted);
+  --fg3:             var(--cream-dim);
+  --fg-accent:       var(--terra-glow);
+
+  --bg-stage:        var(--dark-deep);
+  --bg-surface:      var(--dark);
+  --bg-raised:       var(--dark-raised);
+  --bg-inverse:      var(--paper);
+
+  --border:          color-mix(in srgb, var(--terra-deep) 50%, transparent);
+  --border-strong:   var(--terra-deep);
+  --divider:         color-mix(in srgb, var(--terra-deep) 30%, transparent);
+
+  /* Semantic state (warm-shifted, no cool tones) */
+  --positive:        #7A8A4E;   /* olive · success                   */
+  --warning:         #D9A24E;   /* amber                              */
+  --danger:          #B14A3A;   /* fired-clay red                    */
+
+  /* ── TYPE ──────────────────────────────────────────────── */
+  --font-display:    'Space Grotesk', system-ui, sans-serif;
+  --font-body:       'Inter', system-ui, sans-serif;
+  --font-mono:       'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Weights actually in use */
+  --w-light:    300;
+  --w-regular:  400;
+  --w-medium:   500;
+  --w-semibold: 600;
+  --w-bold:     700;
+
+  /* Letter-spacing tokens (mostly negative for display) */
+  --tracking-tight-xl: -0.05em;   /* hero / stacked wordmark           */
+  --tracking-tight-lg: -0.035em;  /* wordmark / large display          */
+  --tracking-tight:    -0.02em;   /* h1 / h2                           */
+  --tracking-snug:     -0.01em;   /* h3 / large body                   */
+  --tracking-normal:    0;
+  --tracking-wide:      0.08em;   /* small labels                      */
+  --tracking-eyebrow:   0.22em;   /* uppercase placeholder eyebrows    */
+  --tracking-allcaps:   0.32em;   /* CARDLABEL eyebrows                */
+
+  /* ── SPACING (8pt grid) ─────────────────────────────────── */
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  20px;
+  --s-6:  24px;
+  --s-8:  32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+
+  /* ── RADII ──────────────────────────────────────────────── */
+  --r-xs: 6px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 14px;
+  --r-xl: 22px;        /* primary card radius                    */
+  --r-icon: 38px;      /* app icon squircle                      */
+  --r-pill: 999px;
+
+  /* ── SHADOWS ────────────────────────────────────────────── */
+  --shadow-card:    0 1px 0 rgba(255,255,255,0.03) inset, 0 6px 18px rgba(0,0,0,0.35);
+  --shadow-raised:  0 18px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.18);
+  --shadow-press:   inset 0 1px 2px rgba(0,0,0,0.35);
+
+  /* Signature ATMOSPHERIC glow — a bottom-anchored terracotta radial
+     used on hero cards. Apply with ::before or layered background. */
+  --glow-terra:     radial-gradient(60% 80% at 50% 110%,
+                       color-mix(in srgb, var(--terra-deep) 40%, transparent) 0%,
+                       transparent 65%);
+
+  /* ── MOTION ─────────────────────────────────────────────── */
+  --ease-out-soft:   cubic-bezier(0.22, 0.61, 0.36, 1);   /* default */
+  --ease-out-quint:  cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast:   140ms;
+  --duration-base:   220ms;
+  --duration-slow:   420ms;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Base reset · Body
+   ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg-stage);
+  color: var(--fg1);
+  font-family: var(--font-body);
+  font-weight: var(--w-regular);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Semantic type ramp
+   Display = Space Grotesk, tight tracking
+   Body    = Inter
+   ───────────────────────────────────────────────────────────────── */
+
+.eyebrow,
+.brand-label {
+  font: var(--w-medium) 11px/1 var(--font-body);
+  letter-spacing: var(--tracking-allcaps);
+  text-transform: uppercase;
+  color: var(--fg-accent);
+}
+
+h1, .h1, .display-1 {
+  font: var(--w-bold) 86px/0.92 var(--font-display);
+  letter-spacing: var(--tracking-tight-xl);
+  color: var(--fg1);
+  margin: 0;
+}
+
+h2, .h2, .display-2 {
+  font: var(--w-bold) 52px/1.05 var(--font-display);
+  letter-spacing: var(--tracking-tight-lg);
+  color: var(--fg1);
+  margin: 0;
+}
+
+h3, .h3 {
+  font: var(--w-semibold) 30px/1.1 var(--font-display);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg1);
+  margin: 0;
+}
+
+h4, .h4 {
+  font: var(--w-semibold) 22px/1.2 var(--font-display);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg1);
+  margin: 0;
+}
+
+h5, .h5 {
+  font: var(--w-semibold) 16px/1.25 var(--font-display);
+  letter-spacing: var(--tracking-snug);
+  color: var(--fg1);
+  margin: 0;
+}
+
+.lead, p.lead {
+  font: var(--w-regular) 19px/1.55 var(--font-body);
+  color: var(--fg2);
+}
+
+p, .body {
+  font: var(--w-regular) 15px/1.6 var(--font-body);
+  color: var(--fg2);
+  margin: 0 0 1em;
+}
+
+.body-strong { color: var(--fg1); font-weight: var(--w-medium); }
+
+small, .small, .caption {
+  font: var(--w-regular) 12px/1.5 var(--font-body);
+  color: var(--fg3);
+}
+
+code, .mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  letter-spacing: 0;
+}
+
+/* Wordmark — Space Grotesk 700, tight, with ® raised */
+.wordmark {
+  font: var(--w-bold) 1em/1 var(--font-display);
+  letter-spacing: var(--tracking-tight-lg);
+  white-space: nowrap;
+}
+.wordmark sup {
+  font: var(--w-regular) 0.28em/1 var(--font-body);
+  vertical-align: top;
+  margin-left: 0.08em;
+  opacity: 0.85;
+}
+
+/* Numerics — tabular by default in UI contexts */
+.tnum { font-variant-numeric: tabular-nums; }

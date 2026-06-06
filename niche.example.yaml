@@ -1,0 +1,36 @@
+# Niche-Konfiguration — passe das an dein Profil an.
+# Diese Datei steuert das gesamte Tracking, Discovery und die Markt-Analyse.
+
+# Dein Instagram-Handle (ohne @)
+self_handle: dein.handle.hier
+
+# Dein TikTok-Handle (ohne @). Leer lassen, wenn du TikTok nicht nutzt.
+tiktok_handle: dein.handle.hier
+
+# Wie sich dein Markt nennt — ein kurzer Satz, eine Zielgruppe + Kernthema.
+# Beispiel: "Personal-AI fuer Solopreneure"
+# Beispiel: "Immobilien-Coaching fuer Makler"
+# Beispiel: "Sales-Training fuer SaaS-Founders"
+niche_name: "<dein Markt in einem Satz>"
+
+# Laengere Beschreibung deines Profils. Sonnet nutzt das in der Markt-Analyse,
+# um Aehnlichkeit anderer Creator zu deinem Markt zu bewerten.
+niche_description: |
+  Beschreibe dein Profil und deinen Markt in 2-3 Saetzen.
+  Welche Themen, welche Zielgruppe, welche Produkte/Services.
+  Diese Beschreibung sieht die KI nicht der Kunde — sei spezifisch.
+
+# Hashtags fuer Discovery-Suche.
+# Hier landen die Hashtags, ueber die der Discovery-Run neue Creator
+# in deinem Markt sucht. 4-8 Stueck reichen, jeder Hashtag-Call kostet ca. $0.10.
+# Tipp: Mische generische Themen-Hashtags mit Nischen-Hashtags.
+discovery_hashtags:
+  - dein-haupttag
+  - dein-nischen-tag
+  - dein-zielgruppen-tag
+  - dein-format-tag
+
+# Wettbewerber zum aktiven Tracken (optional).
+# Diese Handles werden im Detail getrackt, nicht nur in der Discovery erwaehnt.
+# Empfehlung: 5-12 echte Wettbewerber, dazu 2-3 grosse Accounts der Branche.
+tracked_competitors: []

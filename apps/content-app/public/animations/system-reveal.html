@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>System Reveal · 9:16 · 35s</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* CEO-GPT Brand-Tokens */
+    --dark-deep:    #0A0805;
+    --dark:         #17130F;
+    --dark-raised:  #1B1612;
+    --dark-edge:    #221C17;
+    --cream:        #F2E8DC;
+    --cream-muted:  #C9BDAF;
+    --cream-dim:    #8C8479;
+    --terra:        #C26B4C;
+    --terra-glow:   #D48466;
+    --terra-deep:   #6E3726;
+    --terra-ember:  #3A1A11;
+
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+    --font-body:    'Inter', system-ui, sans-serif;
+
+    /* Timing 35s total (synchron zur MP3, 35.6s)
+       Phase 1: 0–9s   (0–25.7%)   · isolated tools
+       Phase 2: 9–17s  (25.7–48.6%)· Jarvis enters
+       Phase 3: 17–35s (48.6–100%) · lines + particles + pulse-halt
+    */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    background: var(--dark-deep);
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-weight: 300;
+    overflow: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .viewport {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .stage {
+    width: 1080px;
+    height: 1920px;
+    position: relative;
+    transform-origin: center center;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: var(--dark-deep);
+  }
+
+  /* Atmosphaere: warme Vignette + Grain */
+  .stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(212, 132, 102, 0.10) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.50) 0%, transparent 80%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(rgba(255, 255, 255, 0.014) 1px, transparent 1px);
+    background-size: 3px 3px;
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: overlay;
+  }
+
+  /* ───────── EYEBROW (oben, wechselt pro Phase) ───────── */
+  .eyebrow-stack {
+    position: absolute;
+    top: 130px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 5;
+    height: 80px;
+    padding: 0 60px;
+  }
+  .eyebrow {
+    position: absolute;
+    inset: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 38px;
+    letter-spacing: 0.48em;
+    text-transform: uppercase;
+    color: var(--terra);
+    text-shadow: 0 0 32px rgba(212, 132, 102, 0.35);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ───────── GLOW + JARVIS-SIGIL (zentral) ───────── */
+  .jarvis-glow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1300px;
+    height: 1300px;
+    transform: translate(-50%, -50%) scale(0.5);
+    border-radius: 50%;
+    background:
+      radial-gradient(circle, rgba(212, 132, 102, 0.34) 0%, rgba(212, 132, 102, 0.10) 30%, transparent 70%);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 3;
+    filter: blur(12px);
+  }
+
+  /* Sigil-Kreis — gross, aber nicht ueberladen */
+  .jarvis {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 360px;
+    height: 360px;
+    transform: translate(-50%, -50%) scale(0.4);
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 38%, var(--terra-glow) 0%, var(--terra) 50%, var(--terra-deep) 100%);
+    box-shadow:
+      0 0 80px rgba(212, 132, 102, 0.55),
+      0 0 200px rgba(212, 132, 102, 0.32),
+      inset 0 -8px 32px rgba(0, 0, 0, 0.40),
+      inset 0 6px 18px rgba(255, 220, 200, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    z-index: 6;
+  }
+  .jarvis::before {
+    /* Aussen-Ring */
+    content: "";
+    position: absolute;
+    inset: -24px;
+    border-radius: 50%;
+    border: 2px solid rgba(242, 232, 220, 0.22);
+  }
+  .jarvis-text {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 78px;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    text-shadow:
+      0 2px 14px rgba(0, 0, 0, 0.45),
+      0 0 18px rgba(255, 220, 200, 0.25);
+    line-height: 1;
+    user-select: none;
+  }
+
+  /* ───────── LINIEN (SVG) + PARTIKEL ───────── */
+  .lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+  }
+  .line {
+    stroke: var(--terra-glow);
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 10px rgba(212, 132, 102, 0.70));
+    stroke-dasharray: 1400;
+    stroke-dashoffset: 1400;
+    opacity: 0;
+  }
+  .particle {
+    fill: var(--cream);
+    filter: drop-shadow(0 0 8px var(--terra-glow));
+    opacity: 0;
+  }
+
+  /* ───────── TOOLS (7 Cards im Kreis, gross) ───────── */
+  .tool {
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    margin-left: -120px;
+    margin-top: -120px;
+    background: linear-gradient(180deg, var(--dark) 0%, var(--dark-raised) 100%);
+    border: 1.5px solid rgba(110, 55, 38, 0.50);
+    border-radius: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    box-shadow:
+      0 26px 60px rgba(0, 0, 0, 0.60),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    opacity: 0.36;
+    z-index: 5;
+    will-change: transform, opacity;
+  }
+  .tool-logo {
+    width: 100px;
+    height: 100px;
+    color: var(--terra-glow);
+    filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.4));
+  }
+  .tool-logo svg { width: 100%; height: 100%; display: block; }
+  .tool-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: 0.04em;
+    color: var(--cream-muted);
+    line-height: 1;
+  }
+
+  /* Tool-Positionen — Kreis um (540, 960), radius 420
+       0°    (oben)       → (540, 540)
+       51.4° (oben-rechts)→ (868, 698)
+      102.9°(rechts-unten)→ (950, 1054)
+      154.3°(unten-rechts)→ (722, 1338)
+      205.7°(unten-links) → (358, 1338)
+      257.1°(links-unten) → (130, 1054)
+      308.6°(links-oben)  → (212, 698)
+  */
+  .tool[data-i="0"] { left: 540px; top: 540px; }
+  .tool[data-i="1"] { left: 868px; top: 698px; }
+  .tool[data-i="2"] { left: 950px; top: 1054px; }
+  .tool[data-i="3"] { left: 722px; top: 1338px; }
+  .tool[data-i="4"] { left: 358px; top: 1338px; }
+  .tool[data-i="5"] { left: 130px; top: 1054px; }
+  .tool[data-i="6"] { left: 212px; top: 698px; }
+
+  /* ═══════════ ANIMATIONS — 35s ONE-SHOT ═══════════ */
+
+  body[data-mode="play"] .eyebrow-1 { animation: eyebrow1 35s linear 1 forwards; }
+  body[data-mode="play"] .eyebrow-2 { animation: eyebrow2 35s linear 1 forwards; }
+  body[data-mode="play"] .eyebrow-3 { animation: eyebrow3 35s linear 1 forwards; }
+
+  /* eyebrow1: 0–9s sichtbar → 0–25.7%
+     eyebrow2: 9–17s         → 25.7–48.6%
+     eyebrow3: 17–35s         → 48.6–100% */
+  @keyframes eyebrow1 {
+    0%    { opacity: 0; transform: translateY(12px); }
+    2%    { opacity: 1; transform: translateY(0); }
+    23%   { opacity: 1; transform: translateY(0); }
+    26%   { opacity: 0; transform: translateY(-12px); }
+    100%  { opacity: 0; }
+  }
+  @keyframes eyebrow2 {
+    0%, 26%   { opacity: 0; transform: translateY(12px); }
+    29%       { opacity: 1; transform: translateY(0); }
+    46%       { opacity: 1; transform: translateY(0); }
+    49%       { opacity: 0; transform: translateY(-12px); }
+    100%      { opacity: 0; }
+  }
+  @keyframes eyebrow3 {
+    0%, 49%   { opacity: 0; transform: translateY(12px); }
+    52%       { opacity: 1; transform: translateY(0); }
+    97%       { opacity: 1; transform: translateY(0); }
+    100%      { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Tools — float in Phase 1, settle in Phase 2, glow in Phase 3 */
+  body[data-mode="play"] .tool { animation: toolJourney 35s ease-in-out 1 forwards; }
+  body[data-mode="play"] .tool[data-i="0"] { animation-delay: 0.00s; }
+  body[data-mode="play"] .tool[data-i="1"] { animation-delay: 0.20s; }
+  body[data-mode="play"] .tool[data-i="2"] { animation-delay: 0.38s; }
+  body[data-mode="play"] .tool[data-i="3"] { animation-delay: 0.55s; }
+  body[data-mode="play"] .tool[data-i="4"] { animation-delay: 0.72s; }
+  body[data-mode="play"] .tool[data-i="5"] { animation-delay: 0.90s; }
+  body[data-mode="play"] .tool[data-i="6"] { animation-delay: 1.08s; }
+
+  /* 25.7% = Phase1→2 · 48.6% = Phase2→3 */
+  @keyframes toolJourney {
+    0%    { opacity: 0.34; transform: scale(0.94) translate(0, 0); border-color: rgba(110, 55, 38, 0.38); }
+    5%    { opacity: 0.44; transform: scale(0.95) translate(5px, -4px); }
+    12%   { opacity: 0.28; transform: scale(0.94) translate(-4px, 5px); }
+    19%   { opacity: 0.44; transform: scale(0.95) translate(6px, 3px); }
+    25.7% { opacity: 0.38; transform: scale(0.95) translate(0, 0); border-color: rgba(110, 55, 38, 0.42); }
+    /* settle */
+    37%   { opacity: 0.70; transform: scale(0.98); border-color: rgba(212, 132, 102, 0.30); }
+    48.6% { opacity: 0.95; transform: scale(1.00); border-color: rgba(212, 132, 102, 0.45); }
+    /* full glow + halt */
+    62%   { opacity: 1.00; transform: scale(1.00); border-color: rgba(212, 132, 102, 0.58); }
+    100%  { opacity: 1.00; transform: scale(1.00); border-color: rgba(212, 132, 102, 0.58); }
+  }
+  body[data-mode="play"] .tool-logo { animation: toolLogoColor 35s ease-out 1 forwards; }
+  body[data-mode="play"] .tool-name { animation: toolNameColor 35s ease-out 1 forwards; }
+  @keyframes toolLogoColor {
+    0%, 25.7% { color: rgba(212, 132, 102, 0.55); filter: drop-shadow(0 2px 10px rgba(0,0,0,0.4)); }
+    48.6%     { color: var(--terra-glow); filter: drop-shadow(0 2px 14px rgba(212, 132, 102, 0.50)); }
+    100%      { color: var(--terra-glow); filter: drop-shadow(0 2px 16px rgba(212, 132, 102, 0.62)); }
+  }
+  @keyframes toolNameColor {
+    0%, 25.7% { color: var(--cream-dim); }
+    48.6%     { color: var(--cream-muted); }
+    100%      { color: var(--cream); }
+  }
+
+  /* Jarvis-Sigil — startet bei 25.7% (9s) */
+  body[data-mode="play"] .jarvis      { animation: jarvisIn 35s ease-out 1 forwards, jarvisPulse 3.4s ease-in-out 12s infinite; }
+  body[data-mode="play"] .jarvis-glow { animation: jarvisGlowIn 35s ease-out 1 forwards, jarvisGlowPulse 3.4s ease-in-out 12s infinite; }
+
+  @keyframes jarvisIn {
+    0%, 25.7% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+    32%       { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+    37%       { opacity: 1; transform: translate(-50%, -50%) scale(1.00); }
+    100%      { opacity: 1; transform: translate(-50%, -50%) scale(1.00); }
+  }
+  @keyframes jarvisPulse {
+    0%, 100%  { box-shadow:
+                 0 0 80px rgba(212, 132, 102, 0.55),
+                 0 0 200px rgba(212, 132, 102, 0.32),
+                 inset 0 -8px 32px rgba(0, 0, 0, 0.40),
+                 inset 0 6px 18px rgba(255, 220, 200, 0.22); }
+    50%       { box-shadow:
+                 0 0 100px rgba(212, 132, 102, 0.72),
+                 0 0 240px rgba(212, 132, 102, 0.42),
+                 inset 0 -8px 32px rgba(0, 0, 0, 0.40),
+                 inset 0 6px 22px rgba(255, 220, 200, 0.30); }
+  }
+  @keyframes jarvisGlowIn {
+    0%, 25.7% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    34%       { opacity: 1; transform: translate(-50%, -50%) scale(1.0); }
+    100%      { opacity: 1; transform: translate(-50%, -50%) scale(1.0); }
+  }
+  @keyframes jarvisGlowPulse {
+    0%, 100%  { opacity: 1.0; transform: translate(-50%, -50%) scale(1.00); }
+    50%       { opacity: 1.0; transform: translate(-50%, -50%) scale(1.06); }
+  }
+
+  /* Linien wachsen ab 48.6% (17s) — Stagger ~0.5s pro Linie, jede 1.2s wachsen
+     Linie 0 49→52.4%, Linie 1 50.4→53.8%, ... Linie 6 57.4→60.8% */
+  body[data-mode="play"] .line-0 { animation: line0 35s ease-out 1 forwards; }
+  body[data-mode="play"] .line-1 { animation: line1 35s ease-out 1 forwards; }
+  body[data-mode="play"] .line-2 { animation: line2 35s ease-out 1 forwards; }
+  body[data-mode="play"] .line-3 { animation: line3 35s ease-out 1 forwards; }
+  body[data-mode="play"] .line-4 { animation: line4 35s ease-out 1 forwards; }
+  body[data-mode="play"] .line-5 { animation: line5 35s ease-out 1 forwards; }
+  body[data-mode="play"] .line-6 { animation: line6 35s ease-out 1 forwards; }
+
+  @keyframes line0 {
+    0%, 48.6% { stroke-dashoffset: 1400; opacity: 0; }
+    50%       { opacity: 1; }
+    52%       { stroke-dashoffset: 0;    opacity: 1; }
+    100%      { stroke-dashoffset: 0;    opacity: 1; }
+  }
+  @keyframes line1 {
+    0%, 50%   { stroke-dashoffset: 1400; opacity: 0; }
+    51.5%     { opacity: 1; }
+    53.5%     { stroke-dashoffset: 0;    opacity: 1; }
+    100%      { stroke-dashoffset: 0;    opacity: 1; }
+  }
+  @keyframes line2 {
+    0%, 51.5% { stroke-dashoffset: 1400; opacity: 0; }
+    53%       { opacity: 1; }
+    55%       { stroke-dashoffset: 0;    opacity: 1; }
+    100%      { stroke-dashoffset: 0;    opacity: 1; }
+  }
+  @keyframes line3 {
+    0%, 53%   { stroke-dashoffset: 1400; opacity: 0; }
+    54.5%     { opacity: 1; }
+    56.5%     { stroke-dashoffset: 0;    opacity: 1; }
+    100%      { stroke-dashoffset: 0;    opacity: 1; }
+  }
+  @keyframes line4 {
+    0%, 54.5% { stroke-dashoffset: 1400; opacity: 0; }
+    56%       { opacity: 1; }
+    58%       { stroke-dashoffset: 0;    opacity: 1; }
+    100%      { stroke-dashoffset: 0;    opacity: 1; }
+  }
+  @keyframes line5 {
+    0%, 56%   { stroke-dashoffset: 1400; opacity: 0; }
+    57.5%     { opacity: 1; }
+    59.5%     { stroke-dashoffset: 0;    opacity: 1; }
+    100%      { stroke-dashoffset: 0;    opacity: 1; }
+  }
+  @keyframes line6 {
+    0%, 57.5% { stroke-dashoffset: 1400; opacity: 0; }
+    59%       { opacity: 1; }
+    61%       { stroke-dashoffset: 0;    opacity: 1; }
+    100%      { stroke-dashoffset: 0;    opacity: 1; }
+  }
+
+  body[data-mode="play"] .particle-anim {
+    animation: particleFade 35s ease-out 1 forwards;
+  }
+  @keyframes particleFade {
+    0%, 58%   { opacity: 0; }
+    62%       { opacity: 0.95; }
+    97%       { opacity: 0.95; }
+    100%      { opacity: 0.85; }
+  }
+
+  /* Static-Mode (Hash #phase1/2/3) */
+  body[data-mode="static"] * { animation: none !important; }
+  body[data-mode="static"][data-phase="1"] .eyebrow-1 { opacity: 1; }
+  body[data-mode="static"][data-phase="1"] .tool { opacity: 0.40; transform: scale(0.95); border-color: rgba(110, 55, 38, 0.42); }
+  body[data-mode="static"][data-phase="1"] .tool-logo { color: rgba(212, 132, 102, 0.55); }
+  body[data-mode="static"][data-phase="1"] .tool-name { color: var(--cream-dim); }
+
+  body[data-mode="static"][data-phase="2"] .eyebrow-2 { opacity: 1; }
+  body[data-mode="static"][data-phase="2"] .tool { opacity: 0.95; border-color: rgba(212, 132, 102, 0.45); }
+  body[data-mode="static"][data-phase="2"] .tool-logo { color: var(--terra-glow); }
+  body[data-mode="static"][data-phase="2"] .tool-name { color: var(--cream-muted); }
+  body[data-mode="static"][data-phase="2"] .jarvis,
+  body[data-mode="static"][data-phase="2"] .jarvis-glow { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+  body[data-mode="static"][data-phase="3"] .eyebrow-3 { opacity: 1; }
+  body[data-mode="static"][data-phase="3"] .tool { opacity: 1.0; border-color: rgba(212, 132, 102, 0.58); }
+  body[data-mode="static"][data-phase="3"] .tool-logo { color: var(--terra-glow); }
+  body[data-mode="static"][data-phase="3"] .tool-name { color: var(--cream); }
+  body[data-mode="static"][data-phase="3"] .jarvis,
+  body[data-mode="static"][data-phase="3"] .jarvis-glow { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  body[data-mode="static"][data-phase="3"] .line { opacity: 1; stroke-dashoffset: 0; }
+  body[data-mode="static"][data-phase="3"] .particle { opacity: 0.95; }
+
+  .hint {
+    position: absolute;
+    bottom: 24px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: rgba(242, 232, 220, 0.16);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    z-index: 7;
+    pointer-events: none;
+  }
+
+  /* ───────── START-OVERLAY (armed-mode) ───────── */
+  /* Vollflaechig klickbar. Chrome blockt audio.play() ohne User-Geste,
+     daher MUSS der erste Klick die Animation + MP3 starten. */
+  .start-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 50%, rgba(10, 8, 5, 0.55) 0%, rgba(10, 8, 5, 0.90) 70%);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body[data-mode="armed"] .start-overlay { display: flex; }
+
+  .start-pulse {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 38%, var(--terra-glow) 0%, var(--terra) 55%, var(--terra-deep) 100%);
+    box-shadow:
+      0 0 80px rgba(212, 132, 102, 0.55),
+      0 0 200px rgba(212, 132, 102, 0.32),
+      inset 0 -6px 24px rgba(0, 0, 0, 0.40),
+      inset 0 4px 14px rgba(255, 220, 200, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: startPulse 1.6s ease-in-out infinite;
+  }
+  .start-pulse::before {
+    content: "";
+    position: absolute;
+    inset: -18px;
+    border-radius: 50%;
+    border: 2px solid rgba(242, 232, 220, 0.22);
+  }
+  .start-label {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 38px;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+    user-select: none;
+  }
+  @keyframes startPulse {
+    0%, 100% { transform: scale(1.00); }
+    50%      { transform: scale(1.06); }
+  }
+  .start-hint {
+    position: absolute;
+    bottom: 48px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: rgba(242, 232, 220, 0.50);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body data-mode="armed">
+
+<!-- Audio: spielt synchron zur Animation -->
+<audio id="voice" src="system-reveal.mp3" preload="auto"></audio>
+
+<!-- Start-Overlay: Chrome blockt audio.play() ohne User-Geste, deshalb erst armed.
+     Klick startet Animation + MP3 gemeinsam. -->
+<div class="start-overlay" id="startOverlay">
+  <div class="start-pulse"><span class="start-label">Start</span></div>
+  <div class="start-hint">Klick startet Animation und Stimme synchron</div>
+</div>
+
+<div class="viewport">
+  <div class="stage">
+
+    <!-- Eyebrow Stack -->
+    <div class="eyebrow-stack">
+      <div class="eyebrow eyebrow-1">Die meisten Menschen</div>
+      <div class="eyebrow eyebrow-2">Ich bin anders</div>
+      <div class="eyebrow eyebrow-3">Alles in einem Punkt</div>
+    </div>
+
+    <!-- Linien + Particle-Paths -->
+    <svg class="lines" viewBox="0 0 1080 1920" preserveAspectRatio="none">
+      <defs>
+        <path id="pp0" d="M 540 960 L 540  540"  />
+        <path id="pp1" d="M 540 960 L 868  698"  />
+        <path id="pp2" d="M 540 960 L 950  1054" />
+        <path id="pp3" d="M 540 960 L 722  1338" />
+        <path id="pp4" d="M 540 960 L 358  1338" />
+        <path id="pp5" d="M 540 960 L 130  1054" />
+        <path id="pp6" d="M 540 960 L 212  698"  />
+      </defs>
+
+      <line class="line line-0" x1="540" y1="960" x2="540"  y2="540"  />
+      <line class="line line-1" x1="540" y1="960" x2="868"  y2="698"  />
+      <line class="line line-2" x1="540" y1="960" x2="950"  y2="1054" />
+      <line class="line line-3" x1="540" y1="960" x2="722"  y2="1338" />
+      <line class="line line-4" x1="540" y1="960" x2="358"  y2="1338" />
+      <line class="line line-5" x1="540" y1="960" x2="130"  y2="1054" />
+      <line class="line line-6" x1="540" y1="960" x2="212"  y2="698"  />
+
+      <!-- Particles fliessen vom Tool zur Mitte (Daten fliessen in Jarvis rein)
+           Starts ab 21s (~60% von 35s), gestaffelt 0.55s, Loop 2.4s -->
+      <circle class="particle particle-anim" r="8" cx="0" cy="0">
+        <animateMotion dur="2.4s" begin="21s" repeatCount="indefinite" rotate="0">
+          <mpath href="#pp0" />
+        </animateMotion>
+      </circle>
+      <circle class="particle particle-anim" r="8" cx="0" cy="0">
+        <animateMotion dur="2.4s" begin="21.6s" repeatCount="indefinite" rotate="0">
+          <mpath href="#pp1" />
+        </animateMotion>
+      </circle>
+      <circle class="particle particle-anim" r="8" cx="0" cy="0">
+        <animateMotion dur="2.4s" begin="22.2s" repeatCount="indefinite" rotate="0">
+          <mpath href="#pp2" />
+        </animateMotion>
+      </circle>
+      <circle class="particle particle-anim" r="8" cx="0" cy="0">
+        <animateMotion dur="2.4s" begin="22.8s" repeatCount="indefinite" rotate="0">
+          <mpath href="#pp3" />
+        </animateMotion>
+      </circle>
+      <circle class="particle particle-anim" r="8" cx="0" cy="0">
+        <animateMotion dur="2.4s" begin="23.4s" repeatCount="indefinite" rotate="0">
+          <mpath href="#pp4" />
+        </animateMotion>
+      </circle>
+      <circle class="particle particle-anim" r="8" cx="0" cy="0">
+        <animateMotion dur="2.4s" begin="24s" repeatCount="indefinite" rotate="0">
+          <mpath href="#pp5" />
+        </animateMotion>
+      </circle>
+      <circle class="particle particle-anim" r="8" cx="0" cy="0">
+        <animateMotion dur="2.4s" begin="24.6s" repeatCount="indefinite" rotate="0">
+          <mpath href="#pp6" />
+        </animateMotion>
+      </circle>
+    </svg>
+
+    <!-- Tools (echte Brand-Logos, Simple Icons CC0) -->
+    <div class="tool" data-i="0">
+      <span class="tool-logo">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="ChatGPT">
+          <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/>
+        </svg>
+      </span>
+      <div class="tool-name">ChatGPT</div>
+    </div>
+
+    <div class="tool" data-i="1">
+      <span class="tool-logo">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Gemini">
+          <path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/>
+        </svg>
+      </span>
+      <div class="tool-name">Gemini</div>
+    </div>
+
+    <div class="tool" data-i="2">
+      <span class="tool-logo">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Perplexity">
+          <path d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z"/>
+        </svg>
+      </span>
+      <div class="tool-name">Perplexity</div>
+    </div>
+
+    <div class="tool" data-i="3">
+      <span class="tool-logo">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Calendar">
+          <path d="M18.316 5.684H24v12.632h-5.684V5.684zM5.684 24h12.632v-5.684H5.684V24zM18.316 5.684V0H1.895A1.894 1.894 0 0 0 0 1.895v16.421h5.684V5.684h12.632zm-7.207 6.25v-.065c.272-.144.5-.349.687-.617s.279-.595.279-.982c0-.379-.099-.72-.3-1.025a2.05 2.05 0 0 0-.832-.714 2.703 2.703 0 0 0-1.197-.257c-.6 0-1.094.156-1.481.467-.386.311-.65.671-.793 1.078l1.085.452c.086-.249.224-.461.413-.633.189-.172.445-.257.767-.257.33 0 .602.088.816.264a.86.86 0 0 1 .322.703c0 .33-.12.589-.36.778-.24.19-.535.284-.886.284h-.567v1.085h.633c.407 0 .748.109 1.02.327.272.218.407.499.407.843 0 .336-.129.614-.387.832s-.565.327-.924.327c-.351 0-.651-.103-.897-.311-.248-.208-.422-.502-.521-.881l-1.096.452c.178.616.505 1.082.977 1.401.472.319.984.478 1.538.477a2.84 2.84 0 0 0 1.293-.291c.382-.193.684-.458.902-.794.218-.336.327-.72.327-1.149 0-.429-.115-.797-.344-1.105a2.067 2.067 0 0 0-.881-.689zm2.093-1.931l.602.913L15 10.045v5.744h1.187V8.446h-.827l-2.158 1.557zM22.105 0h-3.289v5.184H24V1.895A1.894 1.894 0 0 0 22.105 0zm-3.289 23.5l4.684-4.684h-4.684V23.5zM0 22.105C0 23.152.848 24 1.895 24h3.289v-5.184H0v3.289z"/>
+        </svg>
+      </span>
+      <div class="tool-name">Calendar</div>
+    </div>
+
+    <div class="tool" data-i="4">
+      <span class="tool-logo">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Gmail">
+          <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
+        </svg>
+      </span>
+      <div class="tool-name">Gmail</div>
+    </div>
+
+    <div class="tool" data-i="5">
+      <span class="tool-logo">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Notion">
+          <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/>
+        </svg>
+      </span>
+      <div class="tool-name">Notion</div>
+    </div>
+
+    <div class="tool" data-i="6">
+      <span class="tool-logo">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Claude">
+          <path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/>
+        </svg>
+      </span>
+      <div class="tool-name">Claude</div>
+    </div>
+
+    <!-- Jarvis-Glow + Sigil -->
+    <div class="jarvis-glow"></div>
+    <div class="jarvis">
+      <span class="jarvis-text">Jarvis</span>
+    </div>
+
+    <div class="hint">Klick: Animation + MP3 neu &nbsp;·&nbsp; #phase1 · #phase2 · #phase3</div>
+
+  </div>
+</div>
+
+<script>
+  // Viewport-Skalierung: 1080x1920 in den sichtbaren Bereich einpassen
+  (function fitStage() {
+    const stage = document.querySelector('.stage');
+    function fit() {
+      const sw = window.innerWidth;
+      const sh = window.innerHeight;
+      const scale = Math.min(sw / 1080, sh / 1920);
+      stage.style.transform = `scale(${scale})`;
+    }
+    window.addEventListener('resize', fit);
+    fit();
+  })();
+
+  const audio = document.getElementById('voice');
+  const overlay = document.getElementById('startOverlay');
+
+  // Hash-Phasen-Mode (statisch, kein Audio) — fuer Editor/Screenshot
+  function applyHash() {
+    const h = (location.hash || '').replace('#', '').toLowerCase();
+    const map = { phase1: '1', phase2: '2', phase3: '3' };
+    if (map[h]) {
+      document.body.dataset.mode = 'static';
+      document.body.dataset.phase = map[h];
+      try { audio.pause(); audio.currentTime = 0; } catch (e) {}
+    } else if (document.body.dataset.mode === 'static') {
+      // Aus statischer Phase zurueck in armed (User muss neu starten)
+      document.body.dataset.mode = 'armed';
+      delete document.body.dataset.phase;
+    }
+  }
+  window.addEventListener('hashchange', applyHash);
+
+  function playAudioFromGesture() {
+    // Wird nur aus einer User-Geste aufgerufen — kein Autoplay-Block.
+    try {
+      audio.currentTime = 0;
+      const p = audio.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch((err) => {
+          console.warn('audio.play() rejected:', err);
+        });
+      }
+    } catch (e) {
+      console.warn('audio.play() throw:', e);
+    }
+  }
+
+  function startPlay() {
+    // Animation + MP3 gemeinsam ab jetzt. data-mode=play triggert ALLE
+    // CSS-Animationen (forwards) gleichzeitig zum audio.play().
+    document.body.dataset.mode = 'play';
+    document.querySelectorAll('animateMotion').forEach(a => {
+      try { a.beginElement(); } catch (e) {}
+    });
+    playAudioFromGesture();
+  }
+
+  function restartAll() {
+    // Im armed-mode bleibt das Overlay sichtbar — Klick startet zum ersten Mal.
+    if (document.body.dataset.mode === 'armed') {
+      startPlay();
+      return;
+    }
+    // Im play-mode: re-trigger Animation + MP3 neu von vorne.
+    if (document.body.dataset.mode === 'play') {
+      document.body.dataset.mode = 'paused';
+      void document.body.offsetWidth;
+      startPlay();
+    }
+  }
+  // Klick auf Overlay ODER irgendwo auf der Seite → start/restart
+  document.addEventListener('click', restartAll);
+
+  // Komfort: 1/2/3 = statisch, 0/Esc = zurueck in armed
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '1') location.hash = 'phase1';
+    else if (e.key === '2') location.hash = 'phase2';
+    else if (e.key === '3') location.hash = 'phase3';
+    else if (e.key === '0' || e.key === 'Escape') location.hash = '';
+    else if (e.key === ' ' || e.key === 'Enter') restartAll();
+  });
+
+  // Initial: Hash-Phase-Check, sonst bleibt body in armed (Overlay sichtbar).
+  applyHash();
+</script>
+
+</body>
+</html>

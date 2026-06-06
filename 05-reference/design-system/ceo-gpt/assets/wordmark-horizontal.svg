@@ -1,0 +1,11 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 100" role="img" aria-label="CEO-GPT">
+  
+  <g transform="translate(0 18) scale(0.64)">
+    <path d="M 78 32 A 30 30 0 1 0 78 68 L 56 68 L 56 58 L 70 58" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="butt" stroke-linejoin="miter"></path>
+  </g>
+  
+  <text x="86" y="68" font-family="&#39;Space Grotesk&#39;, system-ui, sans-serif" font-weight="700" font-size="58" letter-spacing="-2.0" fill="currentColor">CEO-GPT</text>
+  
+  <text x="430" y="30" font-family="&#39;Inter&#39;, system-ui, sans-serif" font-weight="600" font-size="16" fill="currentColor" opacity="0.85">™</text>
+</svg>

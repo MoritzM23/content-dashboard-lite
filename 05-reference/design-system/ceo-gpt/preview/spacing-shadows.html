@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8">
+<title>Shadows & elevation</title>
+<link rel="stylesheet" href="_card.css">
+</head><body>
+<div class="eyebrow">Elevation · shadows</div>
+<div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; padding-top:14px;">
+  <div style="display:flex; flex-direction:column; gap:14px; align-items:center;">
+    <div style="width:140px; height:84px; background:#1B1612; border:1px solid rgba(110,55,38,0.5); border-radius:14px;"></div>
+    <div style="text-align:center;">
+      <div style="font:500 11px/1.2 var(--font-display); color:var(--cream);">Flat</div>
+      <div style="font:400 10px/1.4 var(--font-mono); color:var(--fg3); margin-top:3px;">1px border only</div>
+    </div>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:14px; align-items:center;">
+    <div style="width:140px; height:84px; background:#1B1612; border-radius:14px; box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 6px 18px rgba(0,0,0,0.55);"></div>
+    <div style="text-align:center;">
+      <div style="font:500 11px/1.2 var(--font-display); color:var(--cream);">Card</div>
+      <div style="font:400 10px/1.4 var(--font-mono); color:var(--fg3); margin-top:3px;">--shadow-card</div>
+    </div>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:14px; align-items:center;">
+    <div style="width:84px; height:84px; background:linear-gradient(160deg,#C26B4C,#6E3726); border-radius:22px; box-shadow: 0 18px 40px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.18);"></div>
+    <div style="text-align:center;">
+      <div style="font:500 11px/1.2 var(--font-display); color:var(--cream);">Raised</div>
+      <div style="font:400 10px/1.4 var(--font-mono); color:var(--fg3); margin-top:3px;">--shadow-raised</div>
+    </div>
+  </div>
+</div>
+<div class="descriptor" style="margin-top:18px;">Schatten dienen der Trennung, nicht der Dramatik. Outer-Glows sind verboten.</div>
+</body></html>

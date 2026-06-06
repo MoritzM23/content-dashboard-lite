@@ -1,0 +1,74 @@
+# Secrets — NIEMALS commiten
+.env
+.env.local
+.env.*.local
+credentials/
+*.pem
+*.key
+.netrc
+
+# Build-Artefakte
+node_modules/
+.next/
+.turbo/
+*.tsbuildinfo
+dist/
+build/
+
+# Daten / Datenbanken
+data/
+*.db
+*.sqlite
+*.sqlite3
+*-snapshot.json
+*-state.json
+
+# macOS-Backup-Folder mit Leerzeichen (passieren bei Time Machine, Sync)
+".next "*
+"node_modules "*
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Caches
+.firecrawl/
+.cache/
+.parcel-cache/
+
+# Sensible Vault-Bereiche (auch wenn versehentlich kopiert)
+01-context/
+02-inbox/
+03-projects/
+04-areas/business/
+04-areas/contacts/
+04-areas/personal/
+05-reference/book-notes/
+05-reference/insights/
+05-reference/call-protocols/
+05-reference/competitor-content/_comments/
+05-reference/competitor-content/_transcripts/
+05-reference/competitor-content/_summaries/
+05-reference/competitor-content/_ai_analysis/
+06-daily-notes/
+07-archive/
+08-attachments/
+
+# Generierte Voice/Video-Files (zu gross fuer git)
+**/voice/*.mp3
+**/final.mp4
+**/slides/*.png
