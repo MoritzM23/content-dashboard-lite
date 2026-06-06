@@ -540,9 +540,10 @@ def _enrich_with_ai(candidates: list[dict], anthropic_client) -> list[dict]:
             f"{cap}{top_block}"
         )
 
+    niche = _load_niche_for_prompt()
     user_msg = (
-        f"Bewerte folgende {len(candidates)} Instagram-Creator auf Ähnlichkeit zu Moritz' "
-        "CEO-GPT-Profil (AI-OS / Personal Jarvis / Second-Brain-Stack). "
+        f"Bewerte folgende {len(candidates)} Instagram-Creator auf Aehnlichkeit zum "
+        f"User-Profil im Markt: {niche['name']}. "
         "Nutze die Skala 0-100 aus deinem System-Prompt.\n\n"
         f"Liste:\n" + "\n".join(summary_lines) + "\n\n"
         "Output: JSON-Array mit genau " + str(len(candidates)) + " Objekten, "

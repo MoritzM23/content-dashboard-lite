@@ -28,7 +28,7 @@ export function TikTokAccount({ tiktok, scorecard }: Props) {
           <code className="font-mono text-[11px]">com.aios.tiktok-tracker</code>
           ). Manuell starten:{' '}
           <code className="font-mono text-[11px]">
-            ~/aios-venv/bin/python scripts/tiktok_tracker.py
+            .venv/bin/python scripts/tiktok_tracker.py
           </code>
         </p>
       </SectionCard>

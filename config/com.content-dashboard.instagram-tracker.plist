@@ -3,12 +3,12 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.aios.content-meta-refresh</string>
+    <string>com.content-dashboard.instagram-tracker</string>
 
     <key>ProgramArguments</key>
     <array>
         <string>__PYTHON_PATH__</string>
-        <string>__WORKSPACE_PATH__/scripts/content_meta_refresh.py</string>
+        <string>__WORKSPACE_PATH__/scripts/instagram_tracker.py</string>
     </array>
 
     <key>StartCalendarInterval</key>
@@ -16,26 +16,22 @@
         <key>Hour</key>
         <integer>6</integer>
         <key>Minute</key>
-        <integer>30</integer>
+        <integer>0</integer>
     </dict>
 
-    <key>RunAtLoad</key>
-    <false/>
+    <key>StandardOutPath</key>
+    <string>__LOG_PATH__/instagram-tracker.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>__LOG_PATH__/instagram-tracker.log</string>
 
     <key>WorkingDirectory</key>
     <string>__WORKSPACE_PATH__</string>
-
-    <key>StandardOutPath</key>
-    <string>__LOG_PATH__/content-meta-refresh.log</string>
-    <key>StandardErrorPath</key>
-    <string>__LOG_PATH__/content-meta-refresh.log</string>
 
     <key>EnvironmentVariables</key>
     <dict>
         <key>PATH</key>
         <string>/usr/local/bin:/usr/bin:/bin</string>
-        <key>HOME</key>
-        <string>__HOME__</string>
     </dict>
 </dict>
 </plist>

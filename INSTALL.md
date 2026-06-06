@@ -111,7 +111,7 @@ Datei oeffnen und ausfuellen — `self_handle`, `niche_name`, `niche_description
 ```
 
 Dauert 2-5 Minuten. Schreibt deine Reel-Daten nach
-`05-reference/competitor-content/_data/<heute>.json`.
+`05-reference/competitor-content/_data/<heute>.json` (wird automatisch angelegt).
 
 ### 7. Dashboard-Daten generieren
 
@@ -151,12 +151,12 @@ Wenn du auch TikTok trackst:
 
 ## Optional: Tracker automatisch taeglich
 
-`config/com.aios.instagram-tracker.plist` ist ein launchd-Template. Platzhalter
+`config/com.content-dashboard.instagram-tracker.plist` ist ein launchd-Template. Platzhalter
 ersetzen (`__WORKSPACE_PATH__`, `__PYTHON_PATH__`, `__LOG_PATH__`, `__HOME__`),
 nach `~/Library/LaunchAgents/` kopieren, dann:
 
 ```bash
-launchctl load ~/Library/LaunchAgents/com.aios.instagram-tracker.plist
+launchctl load ~/Library/LaunchAgents/com.content-dashboard.instagram-tracker.plist
 ```
 
 Laeuft dann jeden Morgen um 06:00 automatisch.

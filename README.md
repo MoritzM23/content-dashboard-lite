@@ -76,12 +76,11 @@ content-dashboard-lite/
 ├── scripts/               # Python-Tracker + Backend
 ├── config/                # launchd-Plist-Templates fuer Cron
 ├── 04-areas/content/      # Pipeline-Vorlagen, Goals, Playbooks
-└── 05-reference/          # Tracker-Output (wird automatisch befuellt)
 ```
 
 ## Optional: Tracker taeglich automatisch
 
-`config/com.aios.instagram-tracker.plist` ist ein launchd-Template. Platzhalter
+`config/com.content-dashboard.instagram-tracker.plist` ist ein launchd-Template. Platzhalter
 ersetzen (`__WORKSPACE_PATH__`, `__PYTHON_PATH__`, `__LOG_PATH__`, `__HOME__`),
 nach `~/Library/LaunchAgents/` kopieren, dann `launchctl load`. Tracker laeuft
 jeden Morgen automatisch.

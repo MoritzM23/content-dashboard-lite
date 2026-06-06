@@ -119,7 +119,6 @@ def load_call_prep(title: str, attendees: list):
         return None
 
     candidates = []
-    # Aus Titel: "Jarvis Austausch zwischen Moritz Maaker und Sebastian Gehmert"
     name_match = re.search(r"und\s+([A-ZÄÖÜ][a-zäöüß]+(?:\s+[A-ZÄÖÜ][a-zäöüß]+)*)", title)
     if name_match:
         candidates.append(name_match.group(1))
@@ -558,7 +557,7 @@ def load_whatsapp():
         section_lower = section_title.lower()
 
         # Klassifizieren
-        if "testkunden" in section_lower or "ceo-gpt" in section_lower:
+        if "testkunden" in section_lower:
             chat_type = "client"
         elif "team" in section_lower:
             chat_type = "team"
@@ -890,7 +889,7 @@ def load_projects() -> list:
 
         # Kategorie aus Inhalt raten
         lower = (title + " " + ziel).lower()
-        if any(k in lower for k in ["ceo gpt", "jarvis", "second brain", "aios"]):
+        if any(k in lower for k in ["deinmarkt"]):
             category = "Produkt"
         elif any(k in lower for k in ["youtube", "content", "reel", "video", "thumbnail", "creator"]):
             category = "Content"
@@ -2442,7 +2441,7 @@ def main():
             "yt_subs": yt_metrics["yt_subs"],
             "yt_views_week": yt_metrics["yt_views_week"],
             "ig_followers": 13,  # Platzhalter bis Instagram API angebunden
-            "ceo_gpt_customers": 7,
+            "customers": 7,
             "revenue_mtd": finance["revenue_mtd"],
         },
         "charts": {

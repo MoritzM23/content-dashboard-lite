@@ -1,6 +1,6 @@
 /**
  * Server-side Daten-Loader für dashboard-data.json.
- * Wird vom Cron-Job alle 30 Min regeneriert (com.aios.dashboard-refresh).
+ * Wird vom Cron-Job alle 30 Min regeneriert (den Tracker-Cron).
  * Wir lesen die Datei direkt vom Filesystem in einer Server Component.
  */
 

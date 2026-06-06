@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.aios.dashboard-api</string>
+    <string>com.content-dashboard.dashboard-api</string>
 
     <key>ProgramArguments</key>
     <array>
